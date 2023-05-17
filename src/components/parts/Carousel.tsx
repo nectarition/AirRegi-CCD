@@ -56,5 +56,11 @@ const Container = styled.section`
   align-items: center;
 `
 const Image = styled.img`
+  width: unset;
   height: 100%;
+
+  @media screen and (max-width: 820px) {
+    width: 100%;
+    height: unset;
+  }
 `
