@@ -3,6 +3,7 @@ import { createGlobalStyle } from 'styled-components'
 const GlobalStyle = createGlobalStyle`
 html, body, #root {
   height: 100%;
+  background-color: #111;
 }
 
 h1, h2, h3, h4, h5, h6 {

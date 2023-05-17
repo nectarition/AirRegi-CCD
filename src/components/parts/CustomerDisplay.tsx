@@ -1,9 +1,13 @@
 import styled from 'styled-components'
 
-const CustomerDisplay = () => {
+interface IProps {
+  url: string
+}
+const CustomerDisplay: React.FC<IProps> = (props) => {
   return (
     <Iframe
-      src="https://kohatabe.jp"
+      src={props.url}
+      scrolling='no'
     />
   )
 }
@@ -11,7 +15,10 @@ const CustomerDisplay = () => {
 export default CustomerDisplay
 
 const Iframe = styled.iframe`
+  padding: 10px;
+  
   display: block;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 `

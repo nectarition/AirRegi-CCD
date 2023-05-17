@@ -1,13 +1,19 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { useAtom } from 'jotai'
+
+import settingsAtom from '../atoms/settings'
 
 import CustomerDisplay from '../components/parts/CustomerDisplay'
 import SettingButton from '../components/parts/SettingButton'
 import SettingPanel from '../components/parts/SettingPanel'
+import Carousel from '../components/parts/Carousel'
 
 const App = () => {
   const [activeButton, setActiveButton] = useState(false)
   const [showSetting, setShowSetting] = useState(false)
+
+  const [settings] = useAtom(settingsAtom)
 
   const onActiveButton = () => {
     if (!activeButton) return
@@ -19,9 +25,11 @@ const App = () => {
   return (
     <Container>
       <CustomerDisplayArea>
-        <CustomerDisplay />
+        <CustomerDisplay url={settings.customerDisplayUrl} />
       </CustomerDisplayArea>
-      <CarouselArea>CarouselArea</CarouselArea>
+      <CarouselArea>
+        <Carousel advertisements={settings.advertisements} />
+      </CarouselArea>
       <PaymentMethodsArea>PaymentMethodsArea</PaymentMethodsArea>
       <SettingButtonArea>
         <SettingButton setActiveStatus={(status) => setActiveButton(status)} />
@@ -39,11 +47,12 @@ export default App
 
 const Container = styled.main`
   height: 100%;
-  background-color: #000000;
+  background-color: #111;
   
   display: grid;
-  grid-template-rows: 1fr 30%;
+  grid-template-rows: 70% 1fr;
   grid-template-columns: 1fr 1fr;
+  overflow: hidden;
 `
 
 const CustomerDisplayArea = styled.section`
@@ -54,6 +63,7 @@ const CustomerDisplayArea = styled.section`
 const CarouselArea = styled.section`
   grid-column: 1 / 3;
   grid-row: 1;
+  overflow: hidden;
 `
 
 const PaymentMethodsArea = styled.section`
