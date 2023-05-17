@@ -4,6 +4,11 @@ const GlobalStyle = createGlobalStyle`
 html, body, #root {
   height: 100%;
   background-color: #111;
+  font-family: sans-serif;
+
+  @media screen and (max-height: 420px) {
+    font-size: 12px;
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -18,6 +23,10 @@ h6 { font-size: 0.9em; }
 
 a {
   color: #ffffff;
+}
+
+p {
+  font-size: 1em;
 }
 `
 

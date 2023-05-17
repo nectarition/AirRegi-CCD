@@ -53,6 +53,9 @@ const Container = styled.main`
   grid-template-rows: 70% 1fr;
   grid-template-columns: 1fr 1fr;
   overflow: hidden;
+
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 `
 
 const CustomerDisplayArea = styled.section`
@@ -86,9 +89,12 @@ const SettingPanelArea = styled.section`
   width: 100%;
   height: 100%;
 
+  padding: 20px;
+  padding-left: calc(20px + env(safe-area-inset-left));
+  padding-right: calc(20px + env(safe-area-inset-right));
+
   overflow-y: scroll;
 
-  padding: 20px;
 
   background-color: #000000e0;
   color: #ffffff;
