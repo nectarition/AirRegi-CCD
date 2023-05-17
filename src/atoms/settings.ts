@@ -6,8 +6,13 @@ const settings = atomWithStorage<Settings>('settings', {
   advertisements: [
     {
       order: 0,
-      url: 'https://kohatabe.jp/banner.png',
-      displaySeconds: 10
+      url: 'https://pbs.twimg.com/media/FRwA4VjaIAEzJf1?format=jpg&name=large',
+      displaySeconds: 15
+    },
+    {
+      order: 1,
+      url: 'https://pbs.twimg.com/media/FRwA4U2akAAVchC?format=jpg&name=large',
+      displaySeconds: 15
     }
   ]
 })
