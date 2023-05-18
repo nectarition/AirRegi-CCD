@@ -10,6 +10,7 @@ import FormInput from '../form/FormInput'
 import FormItem from '../form/FormItem'
 import FormLabel from '../form/FormLabel'
 import FormSection from '../form/FormSection'
+import FormTextArea from '../form/FormTextArea'
 
 interface IProps {
   setHide: () => void
@@ -21,6 +22,7 @@ const SettingPanel: React.FC<IProps> = (props) => {
 
   const [adUrl, setAdUrl] = useState('')
   const [adSeconds, setAdSeconds] = useState(10)
+  const [settingsJson, setSettingsJson] = useState<string>()
 
   const onInitialize = () => {
     setSettings(ctxSettings)
@@ -86,6 +88,15 @@ const SettingPanel: React.FC<IProps> = (props) => {
     newAds[index].displaySeconds = seconds
 
     setSettings(s => s && ({ ...s, advertisements: newAds }))
+  }
+
+  const importSettings = (importJson: string) => {
+    try {
+      const data = JSON.parse(importJson)
+      setSettings(data)
+    } catch (ex) {
+      alert('設定のインポートでエラーが発生しました')
+    }
   }
 
   return (
@@ -197,6 +208,17 @@ const SettingPanel: React.FC<IProps> = (props) => {
         <FormItem>
           <FormButton onClick={() => saveSettings()}>保存</FormButton>
           <FormButton onClick={() => props.setHide()}>キャンセル</FormButton>
+        </FormItem>
+      </FormSection>
+
+      <h2>設定のエクスポート・インポート</h2>
+      <FormSection>
+        <FormItem>
+          <FormButton onClick={() => setSettingsJson(JSON.stringify(settings))}>エクスポート</FormButton>
+          <FormButton onClick={() => settingsJson && importSettings(settingsJson)}>インポート</FormButton>
+        </FormItem>
+        <FormItem>
+          <FormTextArea value={settingsJson} onChange={e => setSettingsJson(e.target.value)} />
         </FormItem>
       </FormSection>
     </>
