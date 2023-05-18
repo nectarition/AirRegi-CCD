@@ -212,13 +212,17 @@ const SettingPanel: React.FC<IProps> = (props) => {
       </FormSection>
 
       <h2>設定のエクスポート・インポート</h2>
+      <p>
+        他の端末に設定をコピーする際に使用します。<br />
+        設定元の端末で「エクスポート」して下の欄に表示された情報を、設定先の端末の同じ欄に入力し「インポート」を押してください。
+      </p>
       <FormSection>
+        <FormItem>
+          <FormTextArea value={settingsJson} onChange={e => setSettingsJson(e.target.value)} />
+        </FormItem>
         <FormItem>
           <FormButton onClick={() => setSettingsJson(JSON.stringify(settings))}>エクスポート</FormButton>
           <FormButton onClick={() => settingsJson && importSettings(settingsJson)}>インポート</FormButton>
-        </FormItem>
-        <FormItem>
-          <FormTextArea value={settingsJson} onChange={e => setSettingsJson(e.target.value)} />
         </FormItem>
       </FormSection>
     </>
