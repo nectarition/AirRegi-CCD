@@ -75,6 +75,10 @@ const CarouselArea = styled.section`
 const PaymentMethodsArea = styled.section`
   grid-column: 2;
   grid-row: 2;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 const SettingButtonArea = styled.section`
