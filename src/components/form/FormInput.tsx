@@ -5,7 +5,8 @@ const FormInput = styled.input`
   width: 100%;
   
   color: #000000;
-  background-color: transparent;
+  background-color: #ffffff;
+  
   border: 2px solid #000000;
   outline: none;
 

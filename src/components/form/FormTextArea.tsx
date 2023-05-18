@@ -7,7 +7,8 @@ const FormTextArea = styled.textarea`
   min-height: 7em;
   
   color: #000000;
-  background-color: transparent;
+  background-color: #ffffff;
+  
   border: 2px solid #000000;
   outline: none;
 
