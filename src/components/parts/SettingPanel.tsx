@@ -142,6 +142,9 @@ const SettingPanel: React.FC<IProps> = (props) => {
             value={settings?.acceptanceUrl}
             onChange={e => setSettings(s => s && ({ ...s, acceptanceUrl: e.target.value }))} />
         </FormItem>
+        <FormItem>
+          <Image src={settings?.acceptanceUrl} />
+        </FormItem>
       </FormSection>
 
       <h2>広告エリア</h2>
