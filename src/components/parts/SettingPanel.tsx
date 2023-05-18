@@ -95,14 +95,16 @@ const SettingPanel: React.FC<IProps> = (props) => {
       </p>
 
       <h2>カスタマーディスプレイ</h2>
-      <p>
-        <a
-          href="https://faq.airregi.jp/hc/ja/articles/115003167107"
-          target="_blank">
-          エアレジのカスタマーディスプレイ設定を有効にして</a>、「IPアドレス」に表示されている文字列を入力してください。
-      </p>
 
       <FormSection>
+        <FormItem>
+          <p>
+            <a
+              href="https://faq.airregi.jp/hc/ja/articles/115003167107"
+              target="_blank">
+              エアレジのカスタマーディスプレイ設定を有効にして</a>、「IPアドレス」に表示されている文字列を入力してください。
+          </p>
+        </FormItem>
         <FormItem>
           <FormLabel>カスタマーディスプレイURL</FormLabel>
           <FormInput
@@ -114,6 +116,11 @@ const SettingPanel: React.FC<IProps> = (props) => {
       </FormSection>
 
       <FormSection>
+        <FormItem>
+          <p>
+            アクセプタンス(利用可能な決済方法)の表示に使用する画像URLを入力してください。
+          </p>
+        </FormItem>
         <FormItem>
           <FormLabel>アクセプタンス画像</FormLabel>
           <FormInput

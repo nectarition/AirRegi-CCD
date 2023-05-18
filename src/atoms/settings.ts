@@ -2,8 +2,8 @@ import type { Settings } from '@types'
 import { atomWithStorage } from 'jotai/utils'
 
 const settings = atomWithStorage<Settings>('settings', {
-  customerDisplayUrl: 'http://192.168.0.183:55556',
-  acceptanceUrl: '',
+  customerDisplayUrl: 'http://192.168.0.xxx:55556',
+  acceptanceUrl: 'https://pbs.twimg.com/media/FwY5nYFaAAIJE5V?format=png&name=large',
   advertisements: [
     {
       order: 0,
