@@ -154,7 +154,7 @@ const SettingPanel: React.FC<IProps> = (props) => {
           <tr>
             <th>表示順</th>
             <th>画像</th>
-            <th>表示時間</th>
+            <th>表示秒数</th>
             <th>操作</th>
           </tr>
         </thead>
