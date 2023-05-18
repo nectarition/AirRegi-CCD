@@ -18,7 +18,6 @@ const Carousel: React.FC<IProps> = (props) => {
 
   const onUpdateAds = () => {
     if (!ads) return
-    console.log(ads)
     setAd(ads[0])
   }
   useEffect(onUpdateAds, [ads])

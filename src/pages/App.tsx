@@ -18,7 +18,6 @@ const App = () => {
 
   const onActiveButton = () => {
     if (!activeButton) return
-    console.log('hello', activeButton)
     setShowSetting(true)
   }
   useEffect(onActiveButton, [activeButton])
