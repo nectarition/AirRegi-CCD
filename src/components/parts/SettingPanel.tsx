@@ -48,6 +48,8 @@ const SettingPanel: React.FC<IProps> = (props) => {
   }
 
   const removeAd = (removeIndex: number) => {
+    if (!confirm(`No.${removeIndex + 1}を削除しますか？`)) return
+
     if (!settings) return
 
     const newAds = settings.advertisements
