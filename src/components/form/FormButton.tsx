@@ -4,11 +4,11 @@ const FormButton = styled.button`
   display: inline-block;
   padding: 5px 15px;
 
-  background-color: transparent;
-  border: 1px solid #ffffff;
-
-  color: #ffffff;
   font-size: 1rem;
+  border: 2px solid #000000;
+
+  background-color: #000000;
+  color: #ffffff;
 
   cursor: pointer;
 

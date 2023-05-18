@@ -22,7 +22,7 @@ h5 { font-size: 1em; }
 h6 { font-size: 0.9em; }
 
 a {
-  color: #ffffff;
+  color: #000000;
 }
 
 p {

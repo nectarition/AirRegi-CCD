@@ -4,17 +4,13 @@ const FormInput = styled.input`
   display: block;
   width: 100%;
   
-  color: #ffffff;
+  color: #000000;
   background-color: transparent;
-  border: 1px solid #ffffff;
+  border: 2px solid #000000;
   outline: none;
 
   padding: 10px;
   font-size: 1rem;
-
-  &:focus {
-    border: 1px solid #ffffff;
-  }
 `
 
 export default FormInput

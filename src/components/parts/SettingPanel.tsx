@@ -209,7 +209,7 @@ const Table = styled.table`
   }
   tr {
     &:nth-child(2n) {
-      background-color: #ffffff20;
+      background-color: #00000040;
     }
   }
 
@@ -217,8 +217,8 @@ const Table = styled.table`
     text-align: left;
   }
   tbody {
-    border-top: 2px solid #ffffff;
-    border-bottom: 2px solid #ffffff;
+    border-top: 2px solid #000000;
+    border-bottom: 2px solid #000000;
   }
 `
 

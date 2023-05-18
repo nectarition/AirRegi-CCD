@@ -96,13 +96,16 @@ const SettingPanelArea = styled.section`
   width: 100%;
   height: 100%;
 
-  padding: 20px;
-  padding-left: calc(20px + env(safe-area-inset-left));
-  padding-right: calc(20px + env(safe-area-inset-right));
+  padding: 40px;
+  padding-left: calc(25% + env(safe-area-inset-left));
+  padding-right: calc(25% + env(safe-area-inset-right));
 
   overflow-y: scroll;
+  background-color: #ffffff;
 
-
-  background-color: #000000e0;
-  color: #ffffff;
+  @media screen and (max-width: 1000px) {
+    padding: 20px;
+    padding-left: calc(20px + env(safe-area-inset-left));
+    padding-right: calc(20px + env(safe-area-inset-right));
+  } 
 `
