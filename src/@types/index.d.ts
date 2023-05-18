@@ -6,5 +6,6 @@ export interface Advertisements {
 
 export interface Settings {
   customerDisplayUrl: string
+  acceptanceUrl: string
   advertisements: Advertisements[]
 }

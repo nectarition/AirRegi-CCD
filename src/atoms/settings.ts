@@ -3,6 +3,7 @@ import { atomWithStorage } from 'jotai/utils'
 
 const settings = atomWithStorage<Settings>('settings', {
   customerDisplayUrl: 'http://192.168.0.183:55556',
+  acceptanceUrl: '',
   advertisements: [
     {
       order: 0,

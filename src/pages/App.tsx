@@ -8,6 +8,7 @@ import CustomerDisplay from '../components/parts/CustomerDisplay'
 import SettingButton from '../components/parts/SettingButton'
 import SettingPanel from '../components/parts/SettingPanel'
 import Carousel from '../components/parts/Carousel'
+import Acceptance from '../components/parts/Acceptance'
 
 const App = () => {
   const [activeButton, setActiveButton] = useState(false)
@@ -30,7 +31,9 @@ const App = () => {
       <CarouselArea>
         <Carousel advertisements={settings.advertisements} />
       </CarouselArea>
-      <PaymentMethodsArea>PaymentMethodsArea</PaymentMethodsArea>
+      <PaymentMethodsArea>
+        <Acceptance src={settings.acceptanceUrl} />
+      </PaymentMethodsArea>
       <SettingButtonArea>
         <SettingButton setActiveStatus={(status) => setActiveButton(status)} />
       </SettingButtonArea>

@@ -37,6 +37,7 @@ const SettingPanel: React.FC<IProps> = (props) => {
 
   const addAd = (url: string, displaySeconds: number, order?: number) => {
     if (!settings) return
+    if (!url || !displaySeconds) return
 
     const newAds: Advertisements[] = [...settings.advertisements, {
       order: order ?? settings.advertisements.length,
@@ -109,6 +110,17 @@ const SettingPanel: React.FC<IProps> = (props) => {
             placeholder="http://192.168.x.x:xxxxx"
             value={settings?.customerDisplayUrl}
             onChange={e => setSettings(s => s && ({ ...s, customerDisplayUrl: e.target.value }))} />
+        </FormItem>
+      </FormSection>
+
+      <FormSection>
+        <FormItem>
+          <FormLabel>アクセプタンス画像</FormLabel>
+          <FormInput
+            type="url"
+            placeholder="https://"
+            value={settings?.acceptanceUrl}
+            onChange={e => setSettings(s => s && ({ ...s, acceptanceUrl: e.target.value }))} />
         </FormItem>
       </FormSection>
 
