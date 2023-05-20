@@ -124,7 +124,7 @@ const SettingPanel: React.FC<IProps> = (props) => {
           <FormLabel>広告エリア高さ(%)</FormLabel>
           <FormInput
             type="number"
-            placeholder="http://192.168.x.x:xxxxx"
+            placeholder="75"
             value={settings?.heightPercent}
             onChange={e => updateHeightPercent(Number(e.target.value))} />
         </FormItem>
