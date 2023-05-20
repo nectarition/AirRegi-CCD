@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { useAtom } from 'jotai'
 
@@ -9,6 +9,7 @@ import SettingButton from '../components/parts/SettingButton'
 import SettingPanel from '../components/parts/SettingPanel'
 import Carousel from '../components/parts/Carousel'
 import Acceptance from '../components/parts/Acceptance'
+import useElementSize from '../hooks/useElementSize'
 
 const App = () => {
   const [activeButton, setActiveButton] = useState(false)
@@ -18,7 +19,26 @@ const App = () => {
   const customerDisplayRef = useRef<HTMLElement>(null)
   const acceptanceRef = useRef<HTMLElement>(null)
 
+  const adSize = useElementSize(adRef, 'ad')
+  const customerDisplaySize = useElementSize(customerDisplayRef, 'customer')
+  const acceptanceSize = useElementSize(acceptanceRef, 'acceptance')
+
   const [settings] = useAtom(settingsAtom)
+
+  const [sizes, setSizes] = useState<{
+    ad: { x: number, y: number }
+    customerDisplay: { x: number, y: number }
+    acceptance: { x: number, y: number }
+  }>()
+
+  const onResize = () => {
+    setSizes({
+      ad: { x: adSize.width, y: adSize.height },
+      customerDisplay: { x: customerDisplaySize.width, y: customerDisplaySize.height },
+      acceptance: { x: acceptanceSize.width, y: acceptanceSize.height }
+    })
+  }
+  useEffect(onResize, [adSize, customerDisplaySize, acceptanceSize])
 
   const onActiveButton = () => {
     if (!activeButton) return
@@ -26,17 +46,8 @@ const App = () => {
   }
   useEffect(onActiveButton, [activeButton])
 
-  const getSize = (ref: React.RefObject<HTMLElement>) => {
-    if (ref.current == null) return { x: 0, y: 0 }
-    const size = ref.current.getBoundingClientRect()
-    return {
-      x: Math.round(size.width),
-      y: Math.round(size.height)
-    }
-  }
-
   return (
-    <Container heightPercent={settings.heightPercent}>
+    <Container height={settings.heightPercent}>
       <CustomerDisplayArea ref={customerDisplayRef}>
         <CustomerDisplay url={settings.customerDisplayUrl} />
       </CustomerDisplayArea>
@@ -49,15 +60,11 @@ const App = () => {
       <SettingButtonArea>
         <SettingButton setActiveStatus={(status) => setActiveButton(status)} />
       </SettingButtonArea>
-      {showSetting &&
+      {showSetting && sizes &&
         <SettingPanelArea>
           <SettingPanel
             setHide={() => setShowSetting(false)}
-            size={{
-              ad: getSize(adRef),
-              customerDisplay: getSize(customerDisplayRef),
-              acceptance: getSize(acceptanceRef)
-            }} />
+            sizes={sizes} />
         </SettingPanelArea>
       }
     </Container>
@@ -66,12 +73,12 @@ const App = () => {
 
 export default App
 
-const Container = styled.main<{ heightPercent: number }>`
+const Container = styled.main<{ height: number }>`
   height: 100%;
   background-color: #111;
   
   display: grid;
-  grid-template-rows: ${props => props.heightPercent}% 1fr;
+  grid-template-rows: ${props => props.height}% 1fr;
   grid-template-columns: 1fr 1fr;
   overflow: hidden;
 

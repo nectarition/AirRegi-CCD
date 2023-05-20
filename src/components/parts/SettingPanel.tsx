@@ -14,7 +14,7 @@ import FormTextArea from '../form/FormTextArea'
 
 interface IProps {
   setHide: () => void
-  size: {
+  sizes: {
     ad: { x: number, y: number }
     customerDisplay: { x: number, y: number }
     acceptance: { x: number, y: number }
@@ -141,13 +141,13 @@ const SettingPanel: React.FC<IProps> = (props) => {
         <tbody>
           <tr>
             <th>広告エリア</th>
-            <td>{props.size.ad.x}px</td>
-            <td>{props.size.ad.y}px</td>
+            <td>{props.sizes.ad.x}px</td>
+            <td>{props.sizes.ad.y}px</td>
           </tr>
           <tr>
             <th>アクセプタンス</th>
-            <td>{props.size.acceptance.x}px</td>
-            <td>{props.size.acceptance.y}px</td>
+            <td>{props.sizes.acceptance.x}px</td>
+            <td>{props.sizes.acceptance.y}px</td>
           </tr>
         </tbody>
       </Table>

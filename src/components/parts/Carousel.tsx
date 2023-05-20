@@ -14,7 +14,7 @@ const Carousel: React.FC<IProps> = (props) => {
   const onInitialize = () => {
     setAds(props.advertisements.sort((a, b) => a.order - b.order))
   }
-  useEffect(onInitialize, [props])
+  useEffect(onInitialize, [props.advertisements])
 
   const onUpdateAds = () => {
     if (!ads) return
