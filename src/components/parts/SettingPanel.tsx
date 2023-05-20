@@ -14,6 +14,11 @@ import FormTextArea from '../form/FormTextArea'
 
 interface IProps {
   setHide: () => void
+  size: {
+    ad: { x: number, y: number }
+    customerDisplay: { x: number, y: number }
+    acceptance: { x: number, y: number }
+  }
 }
 
 const SettingPanel: React.FC<IProps> = (props) => {
@@ -35,6 +40,10 @@ const SettingPanel: React.FC<IProps> = (props) => {
     setCtxSettings(settings)
     alert('保存しました')
     props.setHide()
+  }
+
+  const updateHeightPercent = (height: number) => {
+    setCtxSettings(s => s && ({ ...s, heightPercent: height }))
   }
 
   const addAd = (url: string, displaySeconds: number, order?: number) => {
@@ -106,6 +115,40 @@ const SettingPanel: React.FC<IProps> = (props) => {
         カスタムカスタマーディスプレイの設定を変更します。<br />
         カスタマーディスプレイ自体の設定は「Airレジ」アプリから行ってください。
       </p>
+
+      <h2>表示エリア</h2>
+      <FormSection>
+        <FormItem>
+          <FormLabel>広告エリア高さ(%)</FormLabel>
+          <FormInput
+            type="number"
+            placeholder="http://192.168.x.x:xxxxx"
+            value={settings?.heightPercent}
+            onChange={e => updateHeightPercent(Number(e.target.value))} />
+        </FormItem>
+      </FormSection>
+
+      <Table>
+        <thead>
+          <tr>
+            <th>項目</th>
+            <th>幅</th>
+            <th>高さ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>広告エリア</th>
+            <td>{props.size.ad.x}px</td>
+            <td>{props.size.ad.y}px</td>
+          </tr>
+          <tr>
+            <th>アクセプタンス</th>
+            <td>{props.size.acceptance.x}px</td>
+            <td>{props.size.acceptance.y}px</td>
+          </tr>
+        </tbody>
+      </Table>
 
       <h2>カスタマーディスプレイ</h2>
 
@@ -240,6 +283,8 @@ const Table = styled.table`
     margin-bottom: 0;
   }
 
+  text-align: left;
+  
   border-collapse: collapse;
   
   th, td {
@@ -251,9 +296,6 @@ const Table = styled.table`
     }
   }
 
-  thead {
-    text-align: left;
-  }
   tbody {
     border-top: 2px solid #000000;
     border-bottom: 2px solid #000000;

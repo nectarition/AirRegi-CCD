@@ -5,6 +5,7 @@ export interface Advertisements {
 }
 
 export interface Settings {
+  heightPercent: number
   customerDisplayUrl: string
   acceptanceUrl: string
   advertisements: Advertisements[]

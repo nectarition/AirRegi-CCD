@@ -2,6 +2,7 @@ import type { Settings } from '@types'
 import { atomWithStorage } from 'jotai/utils'
 
 const settings = atomWithStorage<Settings>('settings', {
+  heightPercent: 75,
   customerDisplayUrl: 'http://192.168.0.xxx:55556',
   acceptanceUrl: 'https://pbs.twimg.com/media/FwY5nYFaAAIJE5V?format=png&name=large',
   advertisements: [

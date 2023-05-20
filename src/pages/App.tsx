@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { useAtom } from 'jotai'
 
@@ -14,6 +14,10 @@ const App = () => {
   const [activeButton, setActiveButton] = useState(false)
   const [showSetting, setShowSetting] = useState(false)
 
+  const adRef = useRef<HTMLElement>(null)
+  const customerDisplayRef = useRef<HTMLElement>(null)
+  const acceptanceRef = useRef<HTMLElement>(null)
+
   const [settings] = useAtom(settingsAtom)
 
   const onActiveButton = () => {
@@ -22,15 +26,24 @@ const App = () => {
   }
   useEffect(onActiveButton, [activeButton])
 
+  const getSize = (ref: React.RefObject<HTMLElement>) => {
+    if (ref.current == null) return { x: 0, y: 0 }
+    const size = ref.current.getBoundingClientRect()
+    return {
+      x: Math.round(size.width),
+      y: Math.round(size.height)
+    }
+  }
+
   return (
-    <Container>
-      <CustomerDisplayArea>
+    <Container heightPercent={settings.heightPercent}>
+      <CustomerDisplayArea ref={customerDisplayRef}>
         <CustomerDisplay url={settings.customerDisplayUrl} />
       </CustomerDisplayArea>
-      <CarouselArea>
+      <CarouselArea ref={adRef}>
         <Carousel advertisements={settings.advertisements} />
       </CarouselArea>
-      <PaymentMethodsArea>
+      <PaymentMethodsArea ref={acceptanceRef}>
         <Acceptance src={settings.acceptanceUrl} />
       </PaymentMethodsArea>
       <SettingButtonArea>
@@ -38,7 +51,13 @@ const App = () => {
       </SettingButtonArea>
       {showSetting &&
         <SettingPanelArea>
-          <SettingPanel setHide={() => setShowSetting(false)} />
+          <SettingPanel
+            setHide={() => setShowSetting(false)}
+            size={{
+              ad: getSize(adRef),
+              customerDisplay: getSize(customerDisplayRef),
+              acceptance: getSize(acceptanceRef)
+            }} />
         </SettingPanelArea>
       }
     </Container>
@@ -47,12 +66,12 @@ const App = () => {
 
 export default App
 
-const Container = styled.main`
+const Container = styled.main<{ heightPercent: number }>`
   height: 100%;
   background-color: #111;
   
   display: grid;
-  grid-template-rows: 70% 1fr;
+  grid-template-rows: ${props => props.heightPercent}% 1fr;
   grid-template-columns: 1fr 1fr;
   overflow: hidden;
 
@@ -100,7 +119,7 @@ const SettingPanelArea = styled.section`
   padding-right: calc(25% + env(safe-area-inset-right));
 
   overflow-y: scroll;
-  background-color: #ffffff;
+  background-color: #ffffffe0;
 
   @media screen and (max-width: 1000px) {
     padding: 20px;
