@@ -43,6 +43,7 @@ const SettingPanel: React.FC<IProps> = (props) => {
   }
 
   const updateHeightPercent = (height: number) => {
+    setSettings(s => s && ({ ...s, heightPercent: height }))
     setCtxSettings(s => s && ({ ...s, heightPercent: height }))
   }
 
