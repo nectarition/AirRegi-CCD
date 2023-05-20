@@ -46,9 +46,9 @@ const SettingPanel: React.FC<IProps> = (props) => {
     setCtxSettings(s => s && ({ ...s, heightPercent: height }))
   }
 
-  const addAd = (url: string, displaySeconds: number, order?: number) => {
-    if (!settings) return
-    if (!url || !displaySeconds) return
+  const addAd = (url: string, displaySeconds: number, order?: number): boolean => {
+    if (!settings) return false
+    if (!url || !displaySeconds) return false
 
     const newAds: Advertisements[] = [...settings.advertisements, {
       order: order ?? settings.advertisements.length,
@@ -56,6 +56,8 @@ const SettingPanel: React.FC<IProps> = (props) => {
       displaySeconds
     }]
     setSettings(s => s && ({ ...s, advertisements: newAds }))
+
+    return true
   }
 
   const removeAd = (removeIndex: number) => {
@@ -220,7 +222,13 @@ const SettingPanel: React.FC<IProps> = (props) => {
             </td>
             <td>
               <FormItem>
-                <FormButton onClick={() => addAd(adUrl, adSeconds)}>追加</FormButton>
+                <FormButton onClick={() => {
+                  const success = addAd(adUrl, adSeconds)
+                  if (!success) return
+
+                  setAdUrl('')
+                  setAdSeconds(10)
+                }}>追加</FormButton>
               </FormItem>
             </td>
           </tr>
