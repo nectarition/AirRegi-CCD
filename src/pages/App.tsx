@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { useAtom } from 'jotai'
-
 import settingsAtom from '../atoms/settings'
-
 import CustomerDisplay from '../components/parts/CustomerDisplay'
 import SettingButton from '../components/parts/SettingButton'
 import SettingPanel from '../components/parts/SettingPanel'
@@ -11,7 +9,7 @@ import Carousel from '../components/parts/Carousel'
 import Acceptance from '../components/parts/Acceptance'
 import useElementSize from '../hooks/useElementSize'
 
-const App = () => {
+const App: React.FC = () => {
   const [activeButton, setActiveButton] = useState(false)
   const [showSetting, setShowSetting] = useState(false)
 

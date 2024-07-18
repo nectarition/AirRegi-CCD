@@ -1,10 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Advertisements, Settings } from '@types'
-
+import type { Settings } from '@types'
 import { useAtom } from 'jotai'
 import settingsAtom from '../../atoms/settings'
-
 import FormButton from '../form/FormButton'
 import FormInput from '../form/FormInput'
 import FormItem from '../form/FormItem'
@@ -26,13 +24,8 @@ const SettingPanel: React.FC<IProps> = (props) => {
   const [settings, setSettings] = useState<Settings>()
 
   const [adUrl, setAdUrl] = useState('')
-  const [adSeconds, setAdSeconds] = useState(10)
+  const [adSeconds, setAdSeconds] = useState('10')
   const [settingsJson, setSettingsJson] = useState<string>()
-
-  const onInitialize = () => {
-    setSettings(ctxSettings)
-  }
-  useEffect(onInitialize, [ctxSettings])
 
   const saveSettings = () => {
     if (!settings) return
@@ -47,35 +40,41 @@ const SettingPanel: React.FC<IProps> = (props) => {
     setCtxSettings(s => s && ({ ...s, heightPercent: height }))
   }
 
-  const addAd = (url: string, displaySeconds: number, order?: number): boolean => {
+  const addAd = useCallback((url: string, displaySeconds: string): boolean => {
     if (!settings) return false
     if (!url || !displaySeconds) return false
-
-    const newAds: Advertisements[] = [...settings.advertisements, {
-      order: order ?? settings.advertisements.length,
-      url,
-      displaySeconds
-    }]
-    setSettings(s => s && ({ ...s, advertisements: newAds }))
-
+    setSettings(s => s && ({
+      ...s,
+      advertisements: [
+        ...s.advertisements,
+        {
+          order: s.advertisements.length + 1,
+          url,
+          displaySeconds: Number(displaySeconds)
+        }]
+    }))
     return true
-  }
+  }, [settings])
 
-  const removeAd = (removeIndex: number) => {
+  const removeAd = useCallback((removeIndex: number) => {
+    if (!settings) return false
     if (!confirm(`No.${removeIndex + 1}を削除しますか？`)) return
-
-    if (!settings) return
 
     const newAds = settings.advertisements
       .filter((_, index) => index !== removeIndex)
-    setSettings(s => s && ({ ...s, advertisements: newAds }))
-  }
 
-  const sortAd = (index: number, order: number) => {
+    setSettings(s => s && ({
+      ...s,
+      advertisements: newAds
+        .sort((a, b) => a.order - b.order)
+        .map((a, i) => ({ ...a, order: i + 1 }))
+    }))
+  }, [settings])
+
+  const sortAd = useCallback((index: number, order: number) => {
     if (!settings) return
 
-    const newAds = [...settings.advertisements]
-
+    const newAds = settings.advertisements
     const ad = newAds[index]
     if (!ad) return
 
@@ -86,30 +85,46 @@ const SettingPanel: React.FC<IProps> = (props) => {
     newAds[index + order].order = ad.order
     newAds[index].order = swapOrder
 
-    setSettings(s => s && ({ ...s, advertisements: newAds }))
-  }
+    setSettings(s => s && ({
+      ...s,
+      advertisements: newAds
+        .sort((a, b) => a.order - b.order)
+        .map((a, i) => ({ ...a, order: i + 1 }))
+    }))
+  }, [settings])
 
-  const setSeconds = (index: number, seconds: number) => {
+  const setSeconds = (index: number, seconds: string) => {
     if (!settings) return
 
-    const newAds = [...settings.advertisements]
-
+    const newAds = settings.advertisements
     const ad = newAds[index]
     if (!ad) return
 
-    newAds[index].displaySeconds = seconds
+    newAds[index].displaySeconds = Number(seconds)
 
     setSettings(s => s && ({ ...s, advertisements: newAds }))
   }
 
   const importSettings = (importJson: string) => {
     try {
-      const data = JSON.parse(importJson)
-      setSettings(data)
+      const data = JSON.parse(importJson) as Settings
+      setSettings({
+        ...data,
+        advertisements: data.advertisements
+          .map((a, i) => ({ ...a, order: i + 1 }))
+      })
     } catch (ex) {
       alert('設定のインポートでエラーが発生しました')
     }
   }
+
+  useEffect(() => {
+    setSettings({
+      ...ctxSettings,
+      advertisements: ctxSettings.advertisements
+        .map((a, i) => ({ ...a, order: i + 1 }))
+    })
+  }, [ctxSettings])
 
   return (
     <>
@@ -219,7 +234,7 @@ const SettingPanel: React.FC<IProps> = (props) => {
                 type="number"
                 placeholder="表示時間(秒)"
                 value={adSeconds}
-                onChange={e => setAdSeconds(Number(e.target.value))} />
+                onChange={e => setAdSeconds(e.target.value)} />
             </td>
             <td>
               <FormItem>
@@ -228,34 +243,32 @@ const SettingPanel: React.FC<IProps> = (props) => {
                   if (!success) return
 
                   setAdUrl('')
-                  setAdSeconds(10)
+                  setAdSeconds('10')
                 }}>追加</FormButton>
               </FormItem>
             </td>
           </tr>
-          {
-            settings?.advertisements
-              .sort((a, b) => a.order - b.order)
-              .map((ad, index) =>
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td><Image src={ad.url} /></td>
-                  <td>
-                    <FormInput
-                      type="number"
-                      value={ad.displaySeconds}
-                      onChange={(e) => setSeconds(index, Number(e.target.value) ?? 0)} />
-                  </td>
-                  <td>
-                    <FormItem>
-                      <FormButton onClick={() => sortAd(index, -1)}>↑</FormButton>
-                      <FormButton onClick={() => sortAd(index, 1)}>↓</FormButton>
-                      <FormButton onClick={() => removeAd(index)}>削除</FormButton>
-                    </FormItem>
-                  </td>
-                </tr>
-              )
-          }
+          {settings?.advertisements
+            .sort((a, b) => a.order - b.order)
+            .map((ad, index) =>
+              <tr key={index}>
+                <td>{ad.order}</td>
+                <td><Image src={ad.url} /></td>
+                <td>
+                  <FormInput
+                    type="number"
+                    value={ad.displaySeconds}
+                    onChange={(e) => setSeconds(index, e.target.value)} />
+                </td>
+                <td>
+                  <FormItem>
+                    <FormButton onClick={() => sortAd(index, -1)}>↑</FormButton>
+                    <FormButton onClick={() => sortAd(index, 1)}>↓</FormButton>
+                    <FormButton onClick={() => removeAd(index)}>削除</FormButton>
+                  </FormItem>
+                </td>
+              </tr>
+            )}
         </tbody>
       </Table>
 
